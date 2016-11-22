@@ -8,8 +8,7 @@
 
 ![desktop version](http://i.imgur.com/e4EY0ea.png)
 
-![mobile version](http://i.imgur.com/PsMoVNS.png)
-
+<img src="http://i.imgur.com/PsMoVNS.png" height="700" alt="mobile version">
 
 ### Как запустить
 
