@@ -1,0 +1,42 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>wlsiu</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="data.js"></script>
+</head>
+<body>
+
+<a href="/" class="back">◀</a>
+<div class="container" id="content">
+    <!--
+    <div id="question">Любишь программировать?</div>
+    <div class="ans">
+        <button>Думаю да</button>
+        <button>Однозначно нет</button>
+    </div>
+     -->
+</div>
+
+<script>
+let $       = (s) => document.querySelector(s),
+    map     = {};
+
+data.forEach(a => map[a.id] = a);
+
+window.onload = _ => display(0);
+
+function display(id) {
+    let step     = map[id],
+        question = `<div id="question">${step.text}</div>`,
+        answers  = step.answers.map(a =>
+                   `<button id=${a.target} onclick="display(${a.target})">${a.text}</button>`);
+
+    $('#content').innerHTML = question + `<div class="ans">${answers.join(' ')}</div>`;
+}
+</script>
+
+</body>
+</html>

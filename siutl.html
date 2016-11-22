@@ -1,0 +1,115 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>siutl</title>
+
+    <link rel="stylesheet" href="style.css">
+    <style> button { margin: 5px; } </style>
+    <script src="data.js"></script>
+</head>
+<body>
+
+<a href="/" class="back">◀</a>
+<div class="container" id="content">
+    <div id="question">Какой язык хочешь использовать?</div>
+    <div class="ans" style="max-width: 70vmin">
+        <!--
+        <button>Python</button>
+        <button>Java</button>
+        -->
+    </div>
+</div>
+
+<script>
+Array.prototype.contains = function (e) { return this.indexOf(e) != -1 }
+Array.prototype.flatten = function () {
+    return this.reduce((a, b) => a.concat(Array.isArray(b) ? b.flatten() : b), []) }
+
+let $      = (s) => document.querySelector(s),
+    map    = {},
+    parent = {},
+    stack  = [],
+    langs  = {};
+
+data.forEach(step => map[step.id] = step);
+data.forEach(step => step.answers.forEach(a => parent[a.target] = step.id));
+
+data.filter(step => step.label)
+    .map(step => step.label.map(l => ({id: step.id, lang: l})) )
+    .flatten()
+    .forEach(x => langs[x.lang] = [x.id].concat(langs[x.lang] || []) );
+
+window.onload = () => {
+    $('.ans').innerHTML = Object.keys(langs)
+        .map(x => `<button onclick="start('${x}')">${x}</button>`).join(' ');
+};
+
+let language;
+
+function start(lang) {
+    language = lang;
+    stack = langs[lang];
+    stack.forEach(id => map[id].visited = true);
+
+    visit(stack.pop());
+}
+
+function visit(id) {
+    if (id == undefined)
+        return failure();
+
+    let next = map[id];
+    while (next.visited)
+        next = map[parent[next.id]];
+
+    display(next.id);
+    map[next.id].visited = true;
+}
+
+function display(id) {
+    if (id == 0) return success();
+
+    let step     = map[id],
+        question = `<div id="question">${step.text}</div>`,
+        answers  = step.answers.map(a =>
+                   `<button onclick="assume(${a.target})">${a.text}</button>`);
+
+    $('#content').innerHTML = question + `<div class="ans">${answers.join(' ')}</div>`;
+}
+
+function assume(id) {
+    let child = map[id];
+
+    if (child.visited)
+        return visit(id);
+
+    if (hasLangChilds(id))
+        return visit(stack.pop());
+
+    // delete bad branches
+    stack = stack.filter(child => !isParent(child, parent[id]));
+    return visit(stack.pop());
+}
+
+function isParent(childId, parentId) {
+    return childId != 0 && (childId == parentId || isParent(parent[childId], parentId));
+}
+
+function hasLangChilds(id) {
+    return stack.map(child => isParent(child, id)).reduce((a,b) => a||b, false);
+}
+
+function success() {
+    $('#content').innerHTML = `<div id="question">${language} — это определённо твой язык!</div>`;
+}
+
+function failure(id) {
+    console.log(id);
+    $('#content').innerHTML = `<div id="question">Твои суждения противоречат твоему выбору. ${language} тебе не подходит, увы!</div>`;
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css?family=Exo+2:100|200|300|400');
+
+@media (max-width: 600px) {
+    :root {
+        font-size: 0.7em;
+    }
+
+
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    cursor: default;
+    background-color: #fcfcfc;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-size: 3em;
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 100;
+    color: #929292;
+}
+
+#question {
+    max-width:90vmin;
+    min-width: 40vmax;
+    text-align: center;
+    margin-bottom: 0.5em;
+}
+
+.ans {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+button {
+    all: initial;
+    color: #555;
+    font: inherit;
+    font-size: 0.53em;
+    border: 1px solid #aaa;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: 200;
+    background-color: #fefefe;
+}
+
+button:hover {
+    background-color: #eee;
+}
+
+.back {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    display: block;
+    width: 5vmax;
+    height: 5vmax;
+    background-color: rgba(230, 230, 230, 0.3);
+    color: #ccc;
+    text-align: center;
+    text-decoration: none;
+    font-size: 4vmax;
+    font-family: monospace;
+    line-height: 4.6vmax;
+}
