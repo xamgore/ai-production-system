@@ -13,7 +13,7 @@
 ### Как запустить
 
 ```bash
-# npm i -g static
+# npm i -g node-static
 $ static
 ```
 
