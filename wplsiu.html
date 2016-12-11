@@ -4,38 +4,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>wlsiu</title>
 
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <link rel="stylesheet" href="style.css">
+    <style>[v-cloak] { display:none }</style>
     <script src="data.js"></script>
 </head>
 <body>
 
 <a href="/" class="back">◀</a>
-<div class="container" id="content">
-    <!--
-    <div id="question">Любишь программировать?</div>
+<div class="container" id="content" v-cloak>
+
+    <div id="question">{{ step.text }}</div>
     <div class="ans">
-        <button>Думаю да</button>
-        <button>Однозначно нет</button>
+        <button v-for="a in step.answers" @click="next(a.target)">
+            {{ a.text }}
+        </button>
     </div>
-     -->
+
 </div>
 
 <script>
-let $       = (s) => document.querySelector(s),
-    map     = {};
+let map = {};
 
 data.forEach(a => map[a.id] = a);
 
-window.onload = _ => display(0);
+new Vue({
+    el: '#content',
+    data: { step: map[0] },
+    methods: {
+        next: function (id) {
+            this.step = map[id];
+        }
+    }
+})
 
-function display(id) {
-    let step     = map[id],
-        question = `<div id="question">${step.text}</div>`,
-        answers  = step.answers.map(a =>
-                   `<button id=${a.target} onclick="display(${a.target})">${a.text}</button>`);
-
-    $('#content').innerHTML = question + `<div class="ans">${answers.join(' ')}</div>`;
-}
 </script>
 
 </body>
